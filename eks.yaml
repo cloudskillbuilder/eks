@@ -1,0 +1,53 @@
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+metadata:
+  name: eks-demo
+  region: us-west-2
+  version: "1.21"
+vpc:
+  id: "vpc-05c84eb21e79d4bee"
+  cidr: "10.0.0.0/16"
+  subnets:
+    private:
+      us-west-2a:
+          id: "subnet-09db65b90203f83aa"
+          cidr: "10.0.1.0/24"
+      us-west-2b:
+          id: "subnet-0b8a81a29cbb6bea2"
+          cidr: "10.0.2.0/24"
+      us-west-2c:
+          id: "subnet-00d705f7bce20e7b5"
+          cidr: "10.0.3.0/24"
+nodeGroups:
+  - name: Eks-Node
+    labels:
+      lifecycle: Ec2Spot
+    #taints:
+    #  spotInstance: true:PreferNoSchedule
+    privateNetworking: true
+    ssh:
+      allow: true
+      publicKeyPath: EKS-Oregon
+    volumeSize: 5
+    minSize: 1
+    maxSize: 1
+    desiredCapacity: 1
+    instancesDistribution: 
+      instanceTypes:
+        - t3.large
+        - t3.medium
+        - t3.small
+        - t3a.medium
+        - t3a.large
+        - t3a.small
+      onDemandBaseCapacity: 0
+      onDemandPercentageAboveBaseCapacity: 0 
+      spotAllocationStrategy: capacity-optimized
+    iam:
+      withAddonPolicies:
+        externalDNS: true
+        autoScaler: true
+        ebs: true
+        efs: true
+        cloudWatch: true
+        albIngress: true
