@@ -53,6 +53,10 @@ After you install kubectl, you can verify its version with the following command
 
 kubectl version --short --client
 
+as next step- Create EKS cluster using the following command
+eksctl create cluster -f eks.yaml 
+
+
 
 
 
