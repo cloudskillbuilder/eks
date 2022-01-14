@@ -56,6 +56,15 @@ kubectl version --short --client
 as next step- Create EKS cluster using the following command
 eksctl create cluster -f eks.yaml 
 
+kubectl get nodes
+
+You can add one or more nodegroups in addition to the initial nodegroup created along with the cluster.
+
+To create an additional nodegroup, use:
+
+
+eksctl scale nodegroup --cluster=eks-demo --name=Eks-Node --nodes=2 --nodes-min=2 --nodes-max=3 --region us-west-2
+
 
 
 
