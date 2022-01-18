@@ -65,6 +65,11 @@ To create an additional nodegroup, use:
 
 eksctl scale nodegroup --cluster=eks-demo --name=Eks-Node --nodes=2 --nodes-min=2 --nodes-max=3 --region us-west-2
 
+For security to access EKS
+
+ aws eks update-kubeconfig --name eks-demo --role-arn arn:aws:sts::083892641784:assumed-role/EKS-demo-1-role --profile eksdemo --region us-west-2
+ 
+
 
 
 
