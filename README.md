@@ -104,7 +104,21 @@ kubectl edit cm aws-auth -n kube-system
  kubectl get nodes  - Error
  
 
+For ROLES (!!!!)
 
+eksctl create iamidentitymapping --cluster eks-demo --region us-west-2 --arn arn:aws:iam::rolearn --username system:serviceaccount:kube-system:dev --group system:serviceaccount:kube-system
+kubectl get cm aws-auth -n kube-system -o yaml
+
+NOTE: Delete mapUsers
+eksctl delete iamidentitymapping --cluster eks-demo --arn userarn --region us-west-2
+
+go to powershell and
+
+aws eks update-kubeconfig --name eks-demo --role-arn arn:roleyoucreated --profile eksdev
+
+
+
+------------------------------------------
 
 For security to access EKS
 
