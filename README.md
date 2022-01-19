@@ -65,6 +65,47 @@ To create an additional nodegroup, use:
 
 eksctl scale nodegroup --cluster=eks-demo --name=Eks-Node --nodes=2 --nodes-min=2 --nodes-max=3 --region us-west-2
 
+------------------
+kubectl get clusterroles
+kubectl get clusterroles cluster-admin -o yaml
+kubectl get clusterrolebindings
+kubectl get clusterrolebindings cluster-admin -o yaml
+kubectl get roles -n kube-system
+kubectl get rolebindings -n kube-system
+
+Now user binding step
+
+kubectl get clusterroles view -o yaml
+
+kubectl apply -f userbin.yaml
+
+Create a IAM user after that map this user to K8S
+
+kubectl edit cm aws-auth -n kube-system
+(configmap- cm)
+
+  mapUsers: |
+      - userarn: arn:aws:iam::1234567890:user/xxx-eks-user
+        username: dev
+        
+ q! exit without saving !
+ 
+ 2nd way to do it
+ eksctl get iamidentitymapping --cluster eks-demo --region us-west-2
+ 
+ eksctl create iamidentitymapping --cluster eks-demo --region us-west-2 --arn arn:aws:iam::083892641784:user/finbourne-eks-user --username dev
+ kubectl get cm aws-auth -n kube-system -o yaml
+ 
+ aws configure --profile eksdev
+ 
+ aws eks update-kubeconfig --name eks-demo --profile eksdev
+ 
+ kubectl get svc
+ kubectl get nodes  - Error
+ 
+
+
+
 For security to access EKS
 
  aws eks update-kubeconfig --name eks-demo --role-arn arn:aws:sts::083892641784:assumed-role/EKS-demo-1-role --profile eksdemo --region us-west-2
